@@ -7,8 +7,7 @@ It uses one Go binary for selection, package installation, and configuration.
 
 ### Host mode
 
-Host mode installs tools into the normal host environment.
-It does not create a Nix sandbox.
+`init-sh` installs tools into the normal host environment.
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/nascarsayan/init-sh/master/install.sh | sh -s -- --machine
@@ -19,15 +18,6 @@ The macOS path uses Homebrew. The Linux path uses the system package manager for
 
 Linux mise installations belong to the current user. They are host installations,
 but they are not available to every account on the machine.
-
-### Sandboxed mode
-
-Sandboxed mode delegates to [`box`](https://github.com/nascarsayan/box).
-`box` uses Nix and does not change the host package set.
-
-```sh
-curl -fsSL https://raw.githubusercontent.com/nascarsayan/init-sh/master/install.sh | sh -s -- --sandboxed
-```
 
 ### Noninteractive host install
 

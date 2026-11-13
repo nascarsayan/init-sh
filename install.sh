@@ -3,32 +3,20 @@ set -eu
 
 repo=${INIT_SH_REPO:-nascarsayan/init-sh}
 ref=${INIT_SH_REF:-master}
-box_installer=${INIT_SH_BOX_INSTALL_URL:-https://raw.githubusercontent.com/nascarsayan/box/main/install.sh}
-mode=machine
-
 case "${1:-}" in
-  --sandboxed) mode=sandboxed; shift ;;
+  --sandboxed)
+    printf 'init-sh: --sandboxed was removed with the box sandbox; install on the host (the default)\n' >&2
+    exit 2 ;;
   --machine) shift ;;
 esac
 
 for argument in "$@"; do
   if [ "$argument" = "--dry-run" ]; then
-    if [ "$mode" = sandboxed ]; then
-      printf '+ curl -fsSL %s | sh\n' "$box_installer"
-    else
-      printf '+ bootstrap init-sh from github.com/%s@%s\n' "$repo" "$ref"
-      printf '+ init-sh install %s\n' "$*"
-    fi
+    printf '+ bootstrap init-sh from github.com/%s@%s\n' "$repo" "$ref"
+    printf '+ init-sh install %s\n' "$*"
     exit 0
   fi
 done
-
-if [ "$mode" = sandboxed ]; then
-  temporary=$(mktemp)
-  trap 'rm -f "$temporary"' EXIT HUP INT TERM
-  curl -fsSL "$box_installer" -o "$temporary"
-  exec sh "$temporary" "$@"
-fi
 
 os=$(uname -s)
 arch=$(uname -m)
