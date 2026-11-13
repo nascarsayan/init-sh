@@ -53,6 +53,17 @@ func defaultGhqRoot(home, platform string) string {
 	}
 	return filepath.Join(home, "ws")
 }
+
+// existingGhqRoot is the ghq root this machine already uses, so a re-run does
+// not repoint every repository path; empty when none is configured.
+func existingGhqRoot() string {
+	out, err := exec.Command("git", "config", "--global", "--get", "ghq.root").Output()
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(string(out))
+}
+
 func install(opts options) error {
 	if hostOS != "linux" && hostOS != "darwin" {
 		return fmt.Errorf("unsupported operating system %q", hostOS)
@@ -60,6 +71,9 @@ func install(opts options) error {
 	home, err := os.UserHomeDir()
 	if err != nil {
 		return fmt.Errorf("find home directory: %w", err)
+	}
+	if opts.GhqRoot == "" {
+		opts.GhqRoot = existingGhqRoot()
 	}
 	if opts.GhqRoot == "" {
 		opts.GhqRoot = defaultGhqRoot(home, hostOS)

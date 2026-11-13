@@ -75,7 +75,8 @@ The default roots are:
 - Linux: `~/ws`
 - macOS: `~/Code/ghq`
 
-Use `--ghq-root PATH` to replace the default.
+An existing `git config --global ghq.root` wins over the default, so a re-run keeps
+your paths. Use `--ghq-root PATH` to override both.
 
 ## glibc
 
