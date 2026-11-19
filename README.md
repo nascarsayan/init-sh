@@ -1,5 +1,8 @@
 # init-sh
 
+> **Retired (2026-11-19).** No longer maintained; this repository is archived.
+> Its contents were folded into a private tool.
+
 `init-sh` installs a personal command-line environment on macOS and Linux.
 It uses one Go binary for selection, package installation, and configuration.
 
